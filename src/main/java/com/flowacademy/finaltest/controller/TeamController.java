@@ -5,11 +5,14 @@ import com.flowacademy.finaltest.service.TeamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.xml.bind.ValidationException;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/teams")
@@ -44,7 +47,20 @@ public class TeamController {
 
     }
 
-
+    @GetMapping
+    public List<Team> getTeam(@RequestParam(value = "page", required = false) Optional<Integer> page,
+                          @RequestParam(value = "limit", required = false) Optional<Integer> limit) {
+        log.info("Retrieving teams (page: {}, limit: {}) ...", page.isPresent() ? page.get() : "n.a.", limit.orElse(10));
+        List<Team> teamlist;
+        if (page.isPresent()) {
+            teamlist = teamService.listTeams(
+                    PageRequest.of(page.get(), limit.orElse(10)));
+        } else {
+            teamlist = teamService.listTeams();
+        }
+        log.debug("Teams: {}", teamlist.size());
+        return teamlist;
+    }
 
 
 
