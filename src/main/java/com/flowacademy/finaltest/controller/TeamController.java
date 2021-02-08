@@ -26,20 +26,26 @@ public class TeamController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Team createNewTeam(@RequestBody Team team) {
+    public Team createNewTeam(@RequestBody Team team) throws ValidationException {
         log.info("Received request for creating a new team {} ... ", team);
 
-        try {
+
             Team newTeam = teamService.createNewTeam(team); // method to make
             log.debug("The new team is created, with name: {}", newTeam);
             return newTeam;
-        } catch (ValidationException e) {
-            log.error("Error accured while creating new team: " + e.getMessage());
-            throw new ResponseStatusException(e.getHttpStatus(), e.getMessage());
-        }
+    }
 
-
+    @PutMapping("/{id}")
+    public Team updateTeam(@RequestBody Team team, @PathVariable ("id")  String id) throws ValidationException {
+        log.info("Received update team request {} ... ", team);
+            Team updatedTeam = teamService.updateTeam(team, id);
+            log.debug("The new team is: {}", updatedTeam);
+            return updatedTeam;
 
     }
+
+
+
+
 
 }

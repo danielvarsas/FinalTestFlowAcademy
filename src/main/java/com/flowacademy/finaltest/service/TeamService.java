@@ -24,5 +24,13 @@ public class TeamService {
         return newTeam;
     }
 
+    public Team updateTeam(Team team, String id) throws ValidationException {
+        log.info("Updating team with data: {} ... ", team);
+
+        Team updatedTeam = teamRepository.save(team);
+        log.debug("Team updated: {}", team);
+        return updatedTeam;
+    }
+
 
 }
