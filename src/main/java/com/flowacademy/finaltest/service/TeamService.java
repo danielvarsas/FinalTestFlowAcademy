@@ -1,8 +1,11 @@
 package com.flowacademy.finaltest.service;
 
+import com.flowacademy.finaltest.entity.Team;
 import com.flowacademy.finaltest.repository.TeamRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.bind.ValidationException;
 
 public class TeamService {
 
@@ -11,6 +14,14 @@ public class TeamService {
 
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
+    }
+
+    public Team createNewTeam(Team team) throws ValidationException {
+        log.info("Creating new team with incoming data: {} ... ", team);
+
+        Team newTeam = teamRepository.save(team);
+        log.debug("Created team is: {}", team);
+        return newTeam;
     }
 
 
