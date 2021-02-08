@@ -1,5 +1,5 @@
 package com.flowacademy.finaltest.service;
 
-public class XYservice {
+public class SuperHeroService {
     //test
 }
